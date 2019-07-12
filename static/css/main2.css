@@ -1,0 +1,69 @@
+.html{
+    font-size:11pt;
+}
+
+.container-fluid{
+    background-color:rgba(0,0,0,0.1);
+}
+
+.header{
+    display:flex;
+    padding:6px 10px;
+    margin-bottom:15px;
+    border-bottom:1px green solid;
+    background-color: rgba(25, 198, 97,1);
+}
+.header h1{
+    font-family: 'Caveat', cursive;
+    color:rgba(255,255,255,0.5);
+    text-align:left;
+    height:100 px;
+    line-height:100 px;
+    display:inline-block;
+    padding:6px;
+}
+
+.header nav{
+    text-align:right;
+    width:100%;
+    font-size:0px;
+}
+.header nav a{
+    font-size:16px;
+    display:inline-block;
+    padding-right:15px;
+    text-decoration:none;
+    color:white;
+}
+
+.header nav a:hover{
+    color:black;
+}
+
+
+.bararea{
+    border:1px solid black;
+    border-radius: 10px;
+    margin:10px;
+    background:rgba(255,255,255,0.6);
+}
+
+
+
+.MainItro{
+    background:rgba(249,132,210,0.6)
+}
+
+.MainItro h1{
+    text-align:200px;
+    line-height:200px;
+    margin-left:10px;
+    display:inline-block;
+}
+
+
+.btn2{
+    width:25px;
+    height:25px;
+    background-color: rgba(0, 0, 0,0.5);
+}

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/resume1.css' %}">
+
+</head>
+<body onload="init()">
+    <div class="container">
+        <div class="column active">
+            <div class="content">
+                <h1>1</h1>
+                <div class="box" id="test">
+                    <div class="picture">
+                        <img class="AboutMe" src="{% static 'css/img/1.jpg' %}" width="100" height="125">
+                    </div>
+                    <h2>個人資料</h2>
+                    <div class="word">
+                        <div>就讀台北商業大學資管系三年級</div>
+                        擅長工具:python , Django , Django rest framework , html , css , JS
+                    </div>
+                    <a href="demo"><img id="resumeicon" src="{% static 'css/img/512.png' %}" width="25" height="25"></a>
+                </div>
+            </div>
+            <div class="bg bg1"></div>
+        </div>
+        <div class="column">
+            <div class="content ">
+                <h1>2</h1>
+                <div class="box">
+                    <div class="picture">
+                        <img class="AboutMe" src="{% static 'css/img/code.png' %}" width="125" height="125">
+                    </div>
+                    <h2>實務經驗</h2>
+                    <div class="word">
+                        <div class="project">
+                            <div class="projecttitle">製作比特幣可視化網站</div>
+                            <div class="detail">(Django, chart.js , JS ,Python)</div>
+                        </div>
+                        <div class="project">
+                            <div class="projecttitle">製作專題</div>
+                            <div class="detail">(Django restframework,allauth,rest-auth,jwt)</div>
+                        </div>
+                        <div class="project">
+                            <div class="projecttitle">爬蟲</div>
+                            <div class="detail">(python,selenium,bs4,urllib)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg bg2"></div>
+        </div>
+        <div class="column">
+            <div class="content ">
+                <h1>3</h1>
+                <div class="box">
+                    <div class="picture">
+                        <img class="AboutMe" src="{% static 'css/img/License.png' %}" width="125" height="125">
+                    </div>
+                    <h2>證照與研習</h2>
+                    <div class="word">
+                        <div class="project">
+                            <div class="projecttitle">證照(License)</div>
+                            <div class="detail">MTA Python</div>
+                            <div class="detail">ERP初階規劃師</div>
+                            <div class="detail">跨靜電商應用師</div>
+                        </div>
+                        <div class="project">
+                            <div class="projecttitle">研習(TibaMe)</div>
+                            <div class="detail">OpenCV電腦影像(以完成)</div>
+                            <div class="detail">python資料科學和爬蟲實戰(以完成)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg bg3"></div>
+        </div>
+        <div class="column">
+            <div class="content ">
+                <h1>4</h1>
+                <div class="box">
+                    <div class="contact">
+                        <h2>履歷和聯絡</h2>
+                        <form   enctype="text/plain" accept-charset="utf-8">
+                            <input id="nameText" type="text" name="Name"  value size="25" placeholder="公司名稱" required>
+                            <input id="emailText" type="email" name="Email"  value size="25" placeholder="Email" required>
+                            <input  id="subText" type="text" name="Subject"  value size="25" aria-invalid="false" placeholder="主旨(subject)" required>
+                            <textarea id="bodyText" name="your-message" cols="25" rows="5"  aria-required="true" aria-invalid="false" placeholder="你的訊息(Your Message)" required></textarea>
+                            <div>
+                                 <a id="mailTo"><input id="deliver" type="button" value="送出訊息" onclick="submitHandler();"></a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="bg bg4"></div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script>
+
+
+        $(document).on('mouseover','.container .column',function(){
+           $(this).addClass('active').siblings().removeClass('active')
+        })
+
+        $(document).on('mouseover','.AboutMe',function(){
+           setTimeout(function() {
+                $('.word').css({"font-size":"14px"});
+                $('.projecttitle').css({"font-size":"16px"});
+           }, 300);
+        })
+
+        $(document).on('mouseout','.AboutMe',function(){
+           setTimeout(function() {
+               $('.word').css({"font-size":"0"});
+               $('.projecttitle').css({"font-size":"0"});
+           }, 300);
+        })
+
+        //宣告預設表單內容為空
+        var initSubject='',initBody='';
+
+        //按下傳送按鈕後執行
+        function submitHandler(){
+            var to = "10546027@ntub.edu.tw";
+            var name = nameText.value;
+            var email = emailText.value;
+            var subject = subText.value;
+
+        //把user填的資料都塞到 mail body 中
+        var body = ""+bodyText.value+'%0A%0A%0A';//%0A是換行 換了三行
+            body += "From："+nameText.value+'%0A';
+            body += "Email："+emailText.value+'%0A';
+            //傳送的主要程式碼
+            mailTo.href="mailto:"+to+"?subject="+subject+"&body="+body;
+            mailTo.click();
+        }
+
+
+         function init(){
+            subText.value=initSubject;
+            toText.value=initTo;
+            bodyText.value=initBody;
+         }
+
+    </script>
+</body>
+</html>

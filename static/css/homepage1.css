@@ -1,0 +1,21 @@
+html{
+    font-size:11pt;
+}
+
+
+.intro{
+    width:100%;
+    height:0px;
+    border-bottom:1px green solid ;
+    text-align:left;
+}
+
+canvas{
+    margin-bottom:100px;
+}
+
+.btn2{
+    width:25px;
+    height:25px;
+    background-color: rgba(0, 0, 0,0.5);
+}

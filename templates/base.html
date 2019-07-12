@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Bitcoin</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main5.css' %}">
+
+    {% include 'top_setting.html' %}
+
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">
+
+</head>
+<body>
+
+    <div class="container-fluid">
+        {% block content %}
+
+        {% endblock %}
+
+    </div>
+
+    {% include 'under_setting.html' %}
+
+
+    <script>
+
+
+         {% block jquery %}
+
+         {% endblock %}
+
+
+        {% block script %}
+        {% endblock %}
+
+
+    </script>
+
+
+</body>
+</html>

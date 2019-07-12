@@ -1,0 +1,246 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row-fluid">
+    <div class="col-4 col-xs-4 col-sm-6-4 col-md-4" url-endpoint='{% url "api-data" %}'>
+        <button id ="linebtn" class="btn2"  data-toggle="button" onclick="TransmuteLineChart()" >-</button>
+        <canvas id="LineChart" width="150" height="150"></canvas>
+    </div>
+    <div class="col-4 col-xs-4 col-sm-6-4 col-md-4">
+        <button id ="barbtn" class="btn2" onclick="TransmuteBarChart()">-</button>
+        <canvas id="BarChart" width="150" height="150"></canvas>
+    </div>
+    <div class="col-4 col-xs-4 col-sm-6-4 col-md-4">
+        <button id ="polarAreabtn" class="btn2" onclick="TransmuteChart()">-</button>
+        <canvas id="PolarAreaChart" width="150" height="150"></canvas>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block jquery %}
+    var endpoint = '/api/chart/data'
+    var ChartData = []
+    var Chartlabels = []
+    var ChartTitle = ""
+
+    $.ajax({
+        method:"GET",
+        url:endpoint,
+        success:function(data){
+            Chartlabels = data.labels
+            ChartData = data.item
+            ChartTitle = data.title
+
+            SetLineChart(Chartlabels,ChartData,ChartTitle)
+            SetBarChart(Chartlabels,ChartData,ChartTitle)
+            SetPolarAreaChart(Chartlabels,ChartData,ChartTitle)
+        },
+        error:function(error_data){
+            console.log("error")
+            console.log(error_data)
+        },
+
+    })
+
+function SetBarChart(labels,data,title){
+    var ctx = document.getElementById('BarChart').getContext('2d');
+    var BarChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: title,
+                data: data,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1,
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+}
+
+function SetLineChart(labels,data,title){
+    var ctx = document.getElementById('LineChart').getContext('2d');
+    var LineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: title,
+                data: data,
+                backgroundColor: [
+                    'rgba(0, 0, 0, 0.4)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(0, 0, 0, 0.4)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                backgroundColor:'rgba(0, 0, 0, 0.4)'
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+
+}
+
+function SetPolarAreaChart(labels,data,title){
+    var ctx = document.getElementById('PolarAreaChart').getContext('2d');
+    var PolarAreaChart = new Chart(ctx, {
+        type: 'polarArea',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: title,
+                data: data,
+                backgroundColor: [
+                    'rgba(0, 0, 0, 0.4)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(0, 0, 0, 0.4)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+
+}
+
+function TransmuteLineChart(){
+
+    var LineCanvas = document.getElementById('LineChart')
+
+    LineCanvas.style.height = 100 + "px";
+    LineCanvas.style.width = 100 + "px";
+
+    var btnVal = document.getElementById("linebtn");
+
+    if(btnVal.textContent=="-")
+    {
+        btnVal.textContent="+";
+        btnVal.style.backgroundColor="white";
+        LineCanvas.style.height = 40 + "%";
+        LineCanvas.style.width =  40 + "%";
+    }else{
+        btnVal.textContent="-";
+        btnVal.style.backgroundColor="rgba(0, 0, 0,0.5)";
+        LineCanvas.style.height = 100 + "%";
+        LineCanvas.style.width = 100 + "%";
+    }
+
+};
+
+function TransmuteBarChart(){
+
+    var BarCanvas = document.getElementById('BarChart')
+
+    BarCanvas.style.height = 100 + "px";
+    BarCanvas.style.width = 100 + "px";
+
+    var btnVal = document.getElementById("barbtn");
+
+    if(btnVal.textContent=="-")
+    {
+        btnVal.textContent="+";
+        btnVal.style.backgroundColor="white";
+        BarCanvas.style.height = 40 + "%";
+        BarCanvas.style.width = 40 + "%";
+    }else{
+        btnVal.textContent="-";
+        btnVal.style.backgroundColor="rgba(0, 0, 0,0.5)";
+        BarCanvas.style.height = 100 + "%";
+        BarCanvas.style.width = 100 + "%";
+    }
+
+};
+
+function TransmuteChart(){
+
+    var Canvas = document.getElementById("PolarAreaChart")
+    console.log(Canvas)
+    Canvas.style.height = 100 + "px";
+    Canvas.style.width = 100 + "px";
+
+    var btnVal = document.getElementById("polarAreabtn");
+
+    if(btnVal.textContent=="-")
+    {
+        btnVal.textContent="+";
+        btnVal.style.backgroundColor="white";
+        Canvas.style.height = 40 + "%";
+        Canvas.style.width = 40 + "%";
+    }else{
+        btnVal.textContent="-";
+        btnVal.style.backgroundColor="rgba(0, 0, 0,0.5)";
+        Canvas.style.height = 100 + "%";
+        Canvas.style.width = 100 + "%";
+    }
+
+};
+
+
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}
