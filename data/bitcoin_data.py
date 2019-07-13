@@ -37,10 +37,23 @@ def set_date(row):
     return row
 
 
-
 #將每一行傳進set_date進行時間變數的轉換
 df = df.apply(lambda row:set_date(row), axis=1)
 df1 = df1.apply(lambda row:set_date(row), axis=1)
+
+
+#---------------Bar Data-----------------------------------------
+from swithch import month_total
+
+#最後要畫圖的資料
+bar_data = []
+bar_time = []
+
+month_total(df1,bar_data,bar_time)
+#---------------Bar Data-----------------------------------------
+
+
+#--------------------Line Data------------------------------------------
 
 df.set_index('datetime',inplace=True)
 df1.set_index('datetime',inplace=True)
@@ -54,8 +67,14 @@ year_day = df1.index.tolist()
 mvg7 = df1['value'].rolling(window=7).mean()
 mvg7.dropna(inplace = True)
 
+
 year_mvg7_data = mvg7.to_list()
 year_mvg7_day = mvg7.index.to_list()
+#--------------------Line Data------------------------------------------
+
+
+
+
 
 
 
