@@ -131,9 +131,9 @@
                 datasets.push({
                     label: data.title[i],
                     data: data.item[i],
-                    backgroundColor:'rgba(0, 0, 0, 0.4)'
+                    borderColor: data.background[i],
                 });
-                console.log(data.title[i])
+                console.log(data.background[i])
             }
 
             var ctx = document.getElementById('LineChart').getContext('2d');
@@ -158,7 +158,7 @@
                     },
                 }
             });
-            console.log(LineChart.data.datasets[0].data)
+
         },
         error:function(error_data){
             console.log("error")
@@ -202,6 +202,41 @@
 
     })
 
+
+var opt = {
+    scales: {
+        yAxes: [{
+            ticks: {
+                beginAtZero: true
+            }
+        }]
+    },
+    tooltips: {
+        enabled: false
+    },
+    hover: {
+        animationDuration: 0
+    },
+    animation: {
+        duration: 1,
+        onComplete: function () {
+            var chartInstance = this.chart,
+                ctx = chartInstance.ctx;
+            ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'bottom';
+
+            this.data.datasets.forEach(function (dataset, i) {
+                var meta = chartInstance.controller.getDatasetMeta(i);
+                meta.data.forEach(function (bar, index) {
+                    var data = dataset.data[index];
+                    ctx.fillText(data, bar._model.x, bar._model.y - 5);
+                });
+            });
+        }
+    }
+};
+
 function SetBarChart(labels,data,title){
     var ctx = document.getElementById('BarChart').getContext('2d');
     var BarChart = new Chart(ctx, {
@@ -230,15 +265,7 @@ function SetBarChart(labels,data,title){
                 borderWidth: 1,
             }]
         },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
-            }
-        }
+        options: opt,
     });
 }
 
