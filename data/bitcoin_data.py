@@ -43,13 +43,66 @@ df1 = df1.apply(lambda row:set_date(row), axis=1)
 
 
 #---------------Bar Data-----------------------------------------
-from swithch import month_total
+df2 = pd.DataFrame(jd_year['stats'])
+df2.columns = ['datetime','value']
+
+def set_month_time(row):
+    #藉由開發人員工具，發現到它會把時間變數乘1000
+    #格式化時間變數
+    time = (row['datetime']/1000)
+    time = datetime.datetime.fromtimestamp(time).strftime("%Y-%m")
+    row['datetime'] = time
+    return row
+
+df2 = df2.apply(lambda row:set_month_time(row), axis=1)
+
+def month_total(df,lvalue,ltime):
+    total = 0
+    day = 0
+    for i in range(1,len(df)-1):
+        #     df.loc -> 可以藉由index和colunn，來找數據
+        # df.iloc[-1]['value'] ->最後一行的value，意即df[364]
+        #  if 有順序性 如果將最後一天的判斷擺在elif，會被前面的if覆蓋掉，所以將最後一天的判斷放在if
+        if int(df.iloc[-1]['value']) == int(df.loc[i, 'value']):
+            #避免最後一天跨月
+            if df.loc[i, 'datetime'] == df.loc[i - 1, 'datetime']:
+                total = total + df.loc[i - 1, 'value'] + df.loc[i, 'value']
+                # 因為要要加上 倒數第二天 和 倒數第一天的數值
+                day = day + 2
+
+                lvalue.append(total / day)
+                ltime.append(df.loc[i-1, 'datetime'])
+
+            else:
+                total = total + df.loc[i - 1, 'value']
+                day = day + 1
+
+                lvalue.append(total / day)
+                ltime.append(df.loc[i - 1, 'datetime'])
+                lvalue.append(df.loc[i, 'value'])
+                ltime.append(df.loc[i,'datetime'])
+
+        #如果是同個月份的話，就累加
+        elif df.loc[i,'datetime'] == df.loc[i-1,'datetime']:
+            total = df.loc[i-1, 'value'] + total
+            day = day + 1
+
+        #不是同個月分，就進行平均數
+        else:
+            total = total + df.loc[i-1,'value']
+            day = day + 1
+
+            lvalue.append(total / day)
+            ltime.append(df.loc[i-1,'datetime'])
+            day=0
+            total=0
 
 #最後要畫圖的資料
 bar_data = []
 bar_time = []
 
-month_total(df1,bar_data,bar_time)
+month_total(df2,bar_data,bar_time)
+
 #---------------Bar Data-----------------------------------------
 
 
